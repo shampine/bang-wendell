@@ -35,6 +35,16 @@ ol, ul {
 }
 
 /* Application Styles */
+body,h1,h2,h3,h4,h5,h6,p,a,i,tr,td, span {
+  font-family: 'Oswald', sans-serif;
+  color: #3f3f3f;
+  text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+  color: #3f3f3f;
+}
+
 .wrapper {
   width: 100%;
   max-width: 320px;
@@ -48,16 +58,54 @@ header, article, footer {
   padding-bottom: 15px;
 }
 
-.title {
+.block {
+  margin: 10px auto;
+  padding: 5px;
+}
+
+.title, .hours {
   display: block;
   width: 100%;
-  font-size: 20px;
   text-align: center;
 }
 
+.title {
+  font-size: 24px;
+}
+
+.hours {
+  font-size: 16px;
+}
+
 h1 {
-  margin: 10px auto;
+  margin: 15px auto;
   font-size: 72px;
   text-transform: uppercase;
+  text-align: center;
+}
+
+.change {
+  margin: 35px auto 15px;
+}
+
+button {
+  display: block;
+  width: 80%;
+  height: 70px;
+  margin: 0 auto;
+  padding: 8px 12px;
+  color: #ffffff;
+  background-color: #3f3f3f;
+  border-radius: 0px;
+  border: 0px;
+  cursor: pointer;
+}
+
+button:hover, button:focus, button:active {
+  background-color: #6f6f6f;
+}
+
+footer {
+  padding: 15px 0px;
   text-align: center;
 }

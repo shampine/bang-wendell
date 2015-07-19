@@ -11,6 +11,5 @@
 |
 */
 
-$app->get('/', [
-    'as' => 'index', 'uses' => 'App\Http\Controllers\Controller@getIndex'
-]);
+$app->get('/', ['as' => 'index', 'uses' => 'App\Http\Controllers\Controller@getIndex']);
+$app->post('/', ['uses' => 'App\Http\Controllers\Controller@postIndex']);
