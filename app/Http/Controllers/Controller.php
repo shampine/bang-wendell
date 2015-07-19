@@ -16,7 +16,6 @@ class Controller extends BaseController
    */
   public function getIndex()
   {
-    $this->isWendellReallyOpen();
     return view('index', [
       'status' => $this->isWendellOpen(),
       'hours'  => $this->getTodaysHours(),
@@ -32,8 +31,12 @@ class Controller extends BaseController
    */
   public function postIndex(Request $request)
   {
-    $is_open = $request->input('state') === 'open' ? 1 : 0;
-    $state   = app('db')->update("UPDATE `location_status` SET `is_open`=$is_open WHERE 1");
+    $location_id = 1;
+    $is_open     = $request->input('state') === 'open' ? 1 : 0;
+    $id_address  = isset($_SERVER['X-Forwarded-For']) ? $_SERVER['X-Forwarded-For'] : null;
+
+    $change  = app('db')->insert()
+    $state   = app('db')->update("UPDATE `location_status` SET `is_open`=$is_open WHERE `id`=$location_id");
     return redirect()->back()->with('state', $state);
   }
 
