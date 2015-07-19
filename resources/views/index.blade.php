@@ -20,7 +20,7 @@
         <h1>{{{ $status ? 'open' : 'closed' }}}</h1>
       </article>
       <footer>
-        <p>{{{ date('h:m A') }}}</p>
+        <p>{{{ date('h:i A') }}}</p>
       </footer>
     </section>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
