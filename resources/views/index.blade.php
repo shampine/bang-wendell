@@ -29,7 +29,7 @@
         <form class="change" method="post">
           <input type="hidden" name="_token" value="{{{ csrf_token() }}}">
           <input type="hidden" name="state" value="{{{ $status ? 'closed' : 'open' }}}">
-          <button type="submit" id="changeState">Just kidding, they're actually {{{ $status ? 'closed' : 'open' }}}.</button>
+          <button type="submit" id="changeState">Just kidding, they're actually {{{ $status ? 'closed' : 'open' }}}.<br>(if so click here..)</button>
         </form>
       </article>
       <footer>

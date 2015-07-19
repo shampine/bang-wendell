@@ -1,8 +1,9 @@
 <?php namespace App\Http\Controllers;
 
+use DB;
+use App\Http\Controllers\Controller;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 
 class Controller extends BaseController
 {
@@ -33,10 +34,11 @@ class Controller extends BaseController
   {
     $location_id = 1;
     $is_open     = $request->input('state') === 'open' ? 1 : 0;
-    $id_address  = isset($_SERVER['X-Forwarded-For']) ? $_SERVER['X-Forwarded-For'] : null;
+    $ip_address  = isset($_SERVER['X-Forwarded-For']) ? $_SERVER['X-Forwarded-For'] : '0.0.0.0';
 
-    $change  = app('db')->insert()
-    $state   = app('db')->update("UPDATE `location_status` SET `is_open`=$is_open WHERE `id`=$location_id");
+    DB::insert('insert into change_requests (location_id, is_open, ip_address) values (?, ?, ?)', [$location_id, $is_open, $ip_address]);
+    $state = DB::update('update location_status set is_open = ? where id = ?', [$is_open, $location_id]);
+
     return redirect()->back()->with('state', $state);
   }
 
