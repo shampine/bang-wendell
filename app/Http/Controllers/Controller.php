@@ -34,7 +34,7 @@ class Controller extends BaseController
   {
     $location_id = 1;
     $is_open     = $request->input('state') === 'open' ? 1 : 0;
-    $ip_address  = isset($_SERVER['X-Forwarded-For']) ? $_SERVER['X-Forwarded-For'] : '0.0.0.0';
+    $ip_address  = isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"];
 
     DB::insert('insert into change_requests (location_id, is_open, ip_address) values (?, ?, ?)', [$location_id, $is_open, $ip_address]);
     $state = DB::update('update location_status set is_open = ? where id = ?', [$is_open, $location_id]);
