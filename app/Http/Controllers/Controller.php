@@ -8,6 +8,25 @@ use Illuminate\Http\Request;
 class Controller extends BaseController
 {
 
+  /**
+   * Protected class vars
+   *
+   * @var $location object
+   */
+  private $location;
+
+  /**
+   * Construct
+   *
+   * @return void
+   */
+   function __construct()
+   {
+    $this->location   = DB::select('SELECT * FROM location_status WHERE id = ?', [1]);
+    $this->location   = isset($this->location[0]) ? $this->location[0] : false;
+    $this->ip_address = $this->setIpAddress();
+   }
+
   // GET REQUESTS //
 
   /**
@@ -17,8 +36,22 @@ class Controller extends BaseController
    */
   public function getIndex()
   {
+    $status = $this->isWendellOpen();
+    $report = false;
+
+    if($status != $this->location->is_open && strtotime($this->getTimezoneAdjusted($this->location->updated_at)) > strtotime(date("Y-m-d H:i:s")) - 43140) {
+      $status = $this->location->is_open;
+      $report = DB::select('SELECT * FROM `change_requests` WHERE is_open = ? ORDER BY id DESC LIMIT 1', [$this->location->is_open]);
+      $report = isset($report[0]) ? $report[0] : false;
+      if($report) {
+        $report->created_at = strtotime($this->getTimezoneAdjusted($report->created_at));
+        $report->updated_at = strtotime($this->getTimezoneAdjusted($report->updated_at));
+      }
+    }
+
     return view('index', [
-      'status' => $this->isWendellOpen(),
+      'status' => $status,
+      'report' => $report,
       'hours'  => $this->getTodaysHours(),
     ]);
   }
@@ -32,22 +65,66 @@ class Controller extends BaseController
    */
   public function postIndex(Request $request)
   {
-    $location_id = 1;
-    $is_open     = $request->input('state') === 'open' ? 1 : 0;
-    $ip_address  = isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"];
+    $is_open     = $request->input('state') === 'open' ? true : false;
+    $recent      = DB::select('SELECT * FROM `change_requests` 
+                               WHERE is_open = ? 
+                               AND created_at BETWEEN NOW() - INTERVAL 60 MINUTE AND NOW()
+                               GROUP BY ip_address 
+                               ORDER BY `updated_at` DESC',
+                               [$is_open]);
 
-    DB::insert('insert into change_requests (location_id, is_open, ip_address) values (?, ?, ?)', [$location_id, $is_open, $ip_address]);
-    $state = DB::update('update location_status set is_open = ? where id = ?', [$is_open, $location_id]);
+    if(!$this->location) {
+      return redirect()->back()->with('state', 'error');
+    }
 
-    return redirect()->back()->with('state', $state);
+    DB::insert('INSERT INTO change_requests (location_id, is_open, ip_address) VALUES (?, ?, ?)', [$this->location->id, $is_open, $this->ip_address]);
+
+    if(sizeof($recent) > 1) {
+      DB::update('UPDATE location_status SET is_open = ?, updated_at = ? WHERE id = ?', [$is_open, date("Y-m-d H:i:s"), $this->location->id]);
+    }
+
+    return redirect()->back()->with('state', 'success');
   }
 
   // Helpers //
 
   /**
+   * Sets the users IP address, and if in a development environment sets a random ip
+   *
+   * @return $ip_address string
+   */
+  private function setIpAddress()
+  {
+    if(\App::environment() === 'local') {
+      $ip_address = (rand(0,255)).'.'.(rand(0,255)).'.'.(rand(0,255)).'.'.(rand(0,255));
+      // $ip_address = '127.0.0.1';
+    } else {
+      $ip_address = isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"];
+    }
+    return $ip_address;
+  }
+
+  /**
+   * Convert timestamp
+   *
+   * @param $datetime string
+   *
+   * @return string
+   */
+  private function getTimezoneAdjusted($datetime)
+  {
+    $date     = new \DateTime($datetime.' +00');
+    $date->setTimezone(new \DateTimeZone('America/Los_Angeles'));
+
+    return $date->format('Y-m-d H:i:s');
+  }
+
+  /**
    * Returns an array of the weekly schedule for the location. Allows
    * us to use it else where. Eventually move these to the status model
    * if and when we write it
+   *
+   * @return array
    */
   private function getLocationHours()
   {

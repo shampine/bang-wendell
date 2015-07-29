@@ -23,15 +23,17 @@
   <body>
     <section class="wrapper">
       <article>
-        @if (session('state'))
-          <p>Updated Successfully.</p>
-        @endif
         <div class="block">
           <span class="title">Currently Wendell is</span>
         </div>
         <div class="block">
           <h1>{{{ $status ? 'open' : 'closed' }}}</h1>
         </div>
+        @if($report)
+          <div class="block block-border">
+            <p>This is manual status reported at<br>{{{ date('m/d h:i A', $report->created_at) }}}</p>
+          </div>
+        @endif
         <div class="block">
           <span class="hours">{{{ $hours }}}</span>
         </div>

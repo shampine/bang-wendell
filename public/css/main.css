@@ -63,6 +63,15 @@ header, article, footer {
   padding: 5px;
 }
 
+.block-border {
+  border: 1px dotted #962828;
+}
+
+.block-border p {
+  color: #962828;
+  line-height: 28px;
+}
+
 .title, .hours {
   display: block;
   width: 100%;
