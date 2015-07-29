@@ -42,7 +42,7 @@
         </form>
       </article>
       <footer>
-        <p>{{{ date('h:i A') }}}  //  {{{ "<3 DTLA" }}}  //  <a href="https://github.com/shampine">GITHUB</a></p>
+        <p>{{{ date('h:i A') }}}  //  {{{ "<3 DTLA" }}}  //  <a href="https://github.com/shampine/bang-wendell">GITHUB</a></p>
       </footer>
     </section>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>

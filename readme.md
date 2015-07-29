@@ -1,6 +1,6 @@
 # Is Wendell Open?
 
-A few places downtown seem to open/close as they please (Wendell, Joe's Pizza, etc). Little app to help know their schedule.
+Trying to stay on top of things.
 
 ## setup
 
