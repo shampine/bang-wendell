@@ -129,8 +129,8 @@ class Controller extends BaseController
   private function getLocationHours()
   {
     return [
-      "Sun" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
-      "Mon" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
+      "Sun" => ["12:00 AM" => "02:00 AM", "12:00 PM" => "11:59 PM"],
+      "Mon" => ["12:00 AM" => "02:00 AM", "05:00 PM" => "11:59 PM"],
       "Tue" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
       "Wed" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
       "Thu" => ["12:00 AM" => "02:00 AM", "05:00 PM" => "11:59 PM"],
