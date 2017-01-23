@@ -131,7 +131,6 @@ class Controller extends BaseController
     return [
       // "Sun" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
       // "Mon" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
-      "Sun" => ["12:00 AM" => "02:00 AM"],
       "Mon" => ["08:00 PM" => "11:59 PM"],
       "Tue" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
       "Wed" => ["12:00 AM" => "02:00 AM", "08:00 PM" => "11:59 PM"],
