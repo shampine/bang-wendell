@@ -1,3 +1,5 @@
+/.idea
 /lumen.log
 /vendor
 .env*
+
