@@ -15,6 +15,11 @@ class Controller extends BaseController
     private $location;
 
     /**
+     * @var string
+     */
+    private $ip_address;
+
+    /**
      * Construct
      */
     function __construct()
@@ -65,6 +70,7 @@ class Controller extends BaseController
      */
     public function postIndex(Request $request)
     {
+        die('Disabled yo.');
         $is_open = ($request->input('state') === 'open') ? true : false;
         $recent = DB::select(
             'SELECT * FROM `change_requests` 

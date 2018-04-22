@@ -37,11 +37,6 @@
         <div class="block">
           <span class="hours">{{{ $hours }}}</span>
         </div>
-        <form class="change" method="post">
-          <input type="hidden" name="_token" value="{{{ csrf_token() }}}">
-          <input type="hidden" name="state" value="{{{ $status ? 'closed' : 'open' }}}">
-          <button type="submit" id="changeState">Just kidding, they're actually {{{ $status ? 'closed' : 'open' }}}.<br>(if so click here..)</button>
-        </form>
       </article>
       <footer>
         <p>{{{ date('h:i A') }}}  //  {{{ "<3 DTLA" }}}  //  <a href="https://github.com/shampine/bang-wendell">GITHUB</a></p>
